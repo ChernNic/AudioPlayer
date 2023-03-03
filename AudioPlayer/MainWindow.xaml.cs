@@ -1,7 +1,9 @@
-﻿using AudioPlayer.Properties;
+﻿using AudioPlayer.Core;
+using AudioPlayer.Properties;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,6 +26,8 @@ namespace AudioPlayer
     /// </summary>
     public partial class MainWindow : Window
     {
+        BindingList<Song> playlist = new BindingList<Song>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -58,7 +62,7 @@ namespace AudioPlayer
 
 
 
-        private void PlayMenuBtn_Click(object sender, RoutedEventArgs e)
+        private void PlayBtn_Click(object sender, RoutedEventArgs e)
         {
             if (PlayBtnIcon.Kind == MaterialDesignThemes.Wpf.PackIconKind.Pause)
             {
@@ -80,7 +84,6 @@ namespace AudioPlayer
 
         }
 
-        public List
 
         private void OpenFolder_Click(object sender, RoutedEventArgs e)
         {
@@ -92,22 +95,12 @@ namespace AudioPlayer
 
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                // Список расширений файлов, которые мы хотим прочитать
-                var fileExtensions = new List<string> { ".mp3", ".wav", ".flac" };
-
-                // Чтение файлов из выбранной папки с заданными расширениями
-                foreach (string file in Directory.GetFiles(dialog.FileName))
-                {
-                    if (fileExtensions.Contains(Path.GetExtension(file)))
-                    {
-
-                        audio.all.Add(new audio(Path.GetFullPath(file)));
+                var fileExtensions = new List<string> { ".mp3", ".wav" };
 
 
-                    }
-                }
             }
         }
+
     }
 }
 

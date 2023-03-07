@@ -93,13 +93,38 @@
                     </Button>
 
                     <ListBox x:Name="SongList"
-                             Grid.Row="1">
+                             Grid.Row="1" SelectionChanged="SongList_SelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding}"/>
+                                <Grid Height="50">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="4*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Image x:Name = "Cover" 
+                                           Grid.Column="0"
+                                           Source="{Binding Path=Image}"/>
+
+                                    <Grid Grid.Column="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="6*"/>
+                                            <RowDefinition Height="5*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0"
+                                                   Text="{Binding Path=SongName}" 
+                                                   FontSize="14" 
+                                                   Foreground="White"
+                                                   Margin="5,0,0,0"/>
+                                        <TextBlock Grid.Row="1"
+                                                   Text="{Binding Path=Artist}" 
+                                                   FontSize="12" 
+                                                   Foreground="Gray"
+                                                   Margin="5,0,0,0"/>
+                                    </Grid>
+                                </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
-                        
                     </ListBox>
 
                 </Grid>
@@ -121,6 +146,38 @@
                             <RowDefinition Height="80"/>
                         </Grid.RowDefinitions>
 
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                            </Grid.RowDefinitions>
+                              
+                            <Image x:Name="AlbumCover" 
+                                   Grid.Row="0"
+                                   Margin="20,20,30,20"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"/>
+
+                            <TextBlock x:Name="SongName"
+                                       Grid.Row="1"
+                                       Text="Song name" 
+                                       FontSize="16" 
+                                       Foreground="White"
+                                       Margin="5,0,0,0"/>
+
+                            <TextBlock x:Name="Artist"
+                                       Grid.Row="2"
+                                       Text="Artist" 
+                                       FontSize="14" 
+                                       Foreground="Gray"
+                                       Margin="5,0,0,0"/>
+                        </Grid>
+                        
+                        <MediaElement x:Name="Player" 
+                                      LoadedBehavior="Manual" 
+                                      MediaEnded="Player_MediaEnded" MediaOpened="Player_MediaOpened"/>
+
                         <Grid Grid.Row="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -133,7 +190,8 @@
                                     VerticalAlignment="Bottom"
                                     Foreground="AntiqueWhite"
                                     Grid.Column="1" 
-                                    Margin="44,0,-181,25">
+                                    Margin="44,0,-181,25" 
+                                    ValueChanged="VolumeSlider_ValueChanged">
                                       
                                 <Slider.RenderTransform>
                                     <RotateTransform Angle="-90"/>
@@ -148,14 +206,14 @@
                                     Foreground="Yellow"/>
                         </Grid>
 
-                        <TextBox x:Name="EndTime"
+                        <TextBlock x:Name="EndTime"
                                  Text="0:00"
                                  Foreground="Yellow"
                                  Grid.Row="1"
                                  HorizontalAlignment="Right"
                                  Margin="0,0,5,0"/>
 
-                        <TextBox x:Name="StartTime"
+                        <TextBlock x:Name="StartTime"
                                  Text="0:00"
                                  Foreground="Yellow"
                                  Grid.Row="1"
@@ -166,7 +224,7 @@
                                 x:Name="MediaSlider"
                                 Foreground="Yellow"
                                 VerticalAlignment="Center"
-                                Margin ="5,5,5,5"/>
+                                Margin ="5,5,5,5" ValueChanged="MediaSlider_ValueChanged"/>
 
                         <Grid Grid.Row="3">
                             <Grid.ColumnDefinitions>
@@ -215,6 +273,34 @@
                                     Kind="SkipNext" 
                                     Height="39" Width="39"
                                     Foreground="Yellow"/>
+                            </Button>
+
+                            <Button x:Name="ShuffleBtn"
+                                    Grid.Column="0"
+                                    Width="45" Height="45"
+                                    Opacity="0.7"
+                                    Style="{DynamicResource PlayMenuBtn}" Click="ShuffleBtn_Click">
+                                
+                                <materialDesign:PackIcon 
+                                    x:Name="ShuffleBtnIcon"
+                                    Kind="Shuffle" 
+                                    Height="35" Width="35"
+                                    Margin="00,0,0,0"
+                                    Foreground="Gray"/>
+                            </Button>
+                            
+                            <Button x:Name="LoopBtn"
+                                    Grid.Column="4"
+                                    Width="45" Height="45"
+                                    Opacity="0.7"
+                                    Style="{DynamicResource PlayMenuBtn}" Click="LoopBtn_Click">
+
+                                <materialDesign:PackIcon 
+                                    x:Name="LoopBtnIcon"
+                                    Kind="Loop" 
+                                    Height="35" Width="35"
+                                    Margin="00,0,0,0"
+                                    Foreground="Gray"/>
                             </Button>
                         </Grid>
                     </Grid>
